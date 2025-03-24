@@ -27,6 +27,11 @@ void main() {
 }
 
 
+
+
+
+
+
 class BlockGame extends FlameGame{
   @override
   FutureOr<void> onLoad() async {
