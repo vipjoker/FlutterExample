@@ -26,6 +26,9 @@ class GamePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Basic Scaffold'),
+      ),
       body: GameWidget<SnakeGame>(
         game: SnakeGame(),
         overlayBuilderMap: {
@@ -135,7 +138,7 @@ class SnakeGame extends FlameGame with KeyboardEvents {
 
 
 
-    final controlSize = min(size.x, size.y) / 5;
+    final controlSize = min(size.x, size.y) / 6;
 
     final upButton = DirectionButton(
       direction: Direction.up,
@@ -192,23 +195,46 @@ class SnakeGame extends FlameGame with KeyboardEvents {
     // Draw grid background
     canvas.drawRect(
       Rect.fromLTWH(0, 0, size.x, size.y),
-      Paint()..color = Colors.black,
+      Paint()..color = Colors.blueGrey,
     );
+
+    var lineCountX = (size.x/ cellSize).toInt();
+    var lineCountY = (size.y/ cellSize).toInt();
+
+    for (var i = 1; i < columns; i ++) {
+
+      var dx = i.toDouble()  * cellSize;
+      canvas.drawLine(Offset(dx, 0), Offset(dx, cellSize * columns), Paint()..color = Colors.black);
+    }
+
+  for (var j = 1; j < rows; j ++) {
+    var dy = j.toDouble()  * cellSize;
+    canvas.drawLine(Offset(0, dy), Offset(size.x, dy), Paint()..color = Colors.black);
+
+  }
+
+
+
 
     // Draw snake
     for (var i = 0; i < snake.length; i++) {
       final position = snake[i];
       final color = i == 0 ? Colors.green.shade300 : Colors.green.shade600;
 
-      canvas.drawRect(
-        Rect.fromLTWH(
-          position.x * cellSize,
-          position.y * cellSize,
-          cellSize,
-          cellSize,
-        ),
-        Paint()..color = color,
-      );
+      
+      canvas.drawCircle(Offset(position.x * cellSize + cellSize/2, position.y * cellSize + cellSize /2) , cellSize/2, Paint()..color = color);
+      // canvas.drawRect(
+      //  
+      //  
+      //   Rect.fromLTWH(
+      //     position.x * cellSize,
+      //     position.y * cellSize,
+      //     cellSize,
+      //     cellSize,
+      //   ),
+      //
+      //   Paint()..color = color,
+      // );
     }
 
     // Draw food
